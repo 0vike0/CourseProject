@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EnergyAccounting.Tests/EnergyAccounting.Tests.csproj" Id="48db6fa0-7990-4033-915d-e7269862b825" />
+  <Project Path="EnergyAccounting/EnergyAccounting.csproj" Id="b324ac97-db86-40b1-9975-d5e439a516f9" />
+</Solution>

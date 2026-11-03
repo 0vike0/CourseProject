@@ -1,0 +1,112 @@
+﻿<Window x:Class="EnergyAccounting.UsersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Управление пользователями" Height="600" Width="950"
+        WindowStartupLocation="CenterScreen" Background="#F8F6FC">
+
+    <Window.Resources>
+        <!-- Градиент для кнопок (Фиолетовый -> Сиреневый) -->
+        <LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Color="#9C27B0" Offset="0.0"/>
+            <GradientStop Color="#BA68C8" Offset="1.0"/>
+        </LinearGradientBrush>
+
+        <!-- Стиль для основных кнопок -->
+        <Style x:Key="GradientButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="15,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{StaticResource ButtonGradient}" CornerRadius="6">
+                            <Border.Effect>
+                                <DropShadowEffect Color="#9C27B0" BlurRadius="10" ShadowDepth="2" Opacity="0.3"/>
+                            </Border.Effect>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <!-- При наведении цвет становится темнее (насыщеннее) -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.85"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Стиль для кнопки "Разблокировать" (зеленая) -->
+        <Style x:Key="GreenButton" TargetType="Button" BasedOn="{StaticResource GradientButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="#4CAF50" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#388E3C"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#7B1FA2">
+            <TextBlock Text="Управление пользователями" FontSize="20" FontWeight="Bold" Foreground="White" VerticalAlignment="Center" Margin="30,0,0,0"/>
+        </Border>
+
+        <Grid Grid.Row="1" Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <DataGrid x:Name="GridUsers" AutoGenerateColumns="False" IsReadOnly="True" 
+                      Background="White" BorderThickness="0" RowHeight="60" AlternatingRowBackground="#FCFAFF"
+                      SelectionMode="Single">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Аватар" Width="80">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding AvatarPath}" Width="40" Height="40" Stretch="UniformToFill" Margin="5"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                    <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="*"/>
+                    <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="*"/>
+                    <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="100"/>
+                    <DataGridTextColumn Header="Попыток" Binding="{Binding Attempts}" Width="80"/>
+                    <DataGridTextColumn Header="Заблокирован" Binding="{Binding IsBlockedText}" Width="120"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                <Button Content="Добавить" Click="BtnAddUser_Click" Style="{StaticResource GradientButton}" Margin="0,0,10,0" Width="75"/>
+                <Button Content="Редактировать" Click="BtnEditUser_Click" Style="{StaticResource GradientButton}" Margin="0,0,10,0" Width="111"/>
+                <Button Content="Удалить" Click="BtnDeleteUser_Click" Style="{StaticResource GradientButton}" Background="#F44336" Margin="0,0,10,0" Width="72">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="#F44336" CornerRadius="6">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Content="Разблокировать" Click="BtnUnblock_Click" Style="{StaticResource GreenButton}" Width="125" Height="22"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
